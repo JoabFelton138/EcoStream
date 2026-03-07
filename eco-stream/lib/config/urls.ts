@@ -1,0 +1,7 @@
+export const OVERFLOW_URLS = [
+    "https://services2.arcgis.com/g6o32ZDQ33GpCIu3/arcgis/rest/services/Thames_Water_Storm_Overflow_Activity_(Production)_view/FeatureServer/0/query?where=Status%3D1&outFields=Id,Company,Latitude,Longitude,ReceivingWaterCourse,LatestEventStart,LastUpdated&f=json",
+    "https://services5.arcgis.com/5eoLvR0f8HKb7HWP/arcgis/rest/services/United_Utilities_Storm_Overflow_Activity/FeatureServer/0/query?where=Status=1&outFields=Id,Company,Latitude,Longitude,ReceivingWaterCourse,LatestEventStart,LastUpdated&f=json",
+    "https://services-eu1.arcgis.com/1WqkK5cDKUbF0CkH/arcgis/rest/services/Yorkshire_Water_Storm_Overflow_Activity/FeatureServer/0/query?where=Status=1&outFields=Id,Company,Latitude,Longitude,ReceivingWaterCourse,LatestEventStart,LastUpdated&f=json",
+    "https://services-eu1.arcgis.com/OMdMOtfhATJPcHe3/arcgis/rest/services/NEH_outlets_PROD/FeatureServer/0/query?where=Status=1&outFields=Id,Company,Latitude,Longitude,ReceivingWaterCourse,LatestEventStart,LastUpdated&f=json",    
+    "https://services-eu1.arcgis.com/XxS6FebPX29TRGDJ/arcgis/rest/services/Southern_Water_Storm_Overflow_Activity/FeatureServer/0/query?where=Status=1&outFields=Id,Company,Latitude,Longitude,ReceivingWaterCourse,LatestEventStart,LastUpdated&f=json"
+];
