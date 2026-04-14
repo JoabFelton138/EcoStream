@@ -1,20 +1,15 @@
 import { NormalizedOverflow } from "@/lib/types/overflow";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { getTotalCompanies, getTotalWaterCourses } from "@/lib/kpi-helpers";
 
 interface KpiCardsProps {
     overflowData: NormalizedOverflow[];
 }
 
-const getTotalCompanies = (overflowData: NormalizedOverflow[]) => 
-    new Set(overflowData.map((item) => item.company)).size;
-
-const getTotalWaterCourses = (overflowData: NormalizedOverflow[]) => new Set(
-    overflowData
-      .map((item) => item.receivingWaterCourse?.trim().toLowerCase())
-  ).size;
-
-
 export const KpiCards = ({ overflowData }: KpiCardsProps) => {
+
+    const totalCompanies = getTotalCompanies(overflowData);
+    const totalWaterCourses = getTotalWaterCourses(overflowData);
 
     const dataObj = [
         {
@@ -23,7 +18,7 @@ export const KpiCards = ({ overflowData }: KpiCardsProps) => {
         },
         {
             title: "Number of Companies Dumping",
-            value: getTotalCompanies(overflowData),
+            value: totalCompanies,
         },
         {
             title: "Dry Weather Spills",
@@ -35,7 +30,7 @@ export const KpiCards = ({ overflowData }: KpiCardsProps) => {
         },
         {
             title: "Number of Rivers Polluted",
-            value: getTotalWaterCourses(overflowData),
+            value: totalWaterCourses,
         }
     ]
     
