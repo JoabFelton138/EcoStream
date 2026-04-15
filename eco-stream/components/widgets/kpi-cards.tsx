@@ -1,6 +1,6 @@
 import { NormalizedOverflow } from "@/lib/types/overflow";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { getTotalCompanies, getTotalWaterCourses } from "@/lib/kpi-helpers";
+import { getTotalCompanies, getTotalWaterCourses, getMostActiveCompany, getSpillCountByCompany } from "@/lib/kpi-helpers";
 
 interface KpiCardsProps {
     overflowData: NormalizedOverflow[];
@@ -10,6 +10,8 @@ export const KpiCards = ({ overflowData }: KpiCardsProps) => {
 
     const totalCompanies = getTotalCompanies(overflowData);
     const totalWaterCourses = getTotalWaterCourses(overflowData);
+    const spillCountByCompany = getSpillCountByCompany(overflowData);
+    const mostActiveSpills = getMostActiveCompany(spillCountByCompany);
 
     const dataObj = [
         {
@@ -19,6 +21,10 @@ export const KpiCards = ({ overflowData }: KpiCardsProps) => {
         {
             title: "Number of Companies Dumping",
             value: totalCompanies,
+        },
+        {
+            title: "Company With Highest Number of Spills",
+            value: mostActiveSpills,
         },
         {
             title: "Dry Weather Spills",
@@ -42,7 +48,11 @@ export const KpiCards = ({ overflowData }: KpiCardsProps) => {
                         <CardTitle>{obj.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <p>{obj.value}</p>
+                        <p>
+                            {typeof obj.value === "object" 
+                                ? `${obj.value.company}: ${obj.value.count} Active Spills`
+                                : obj.value}
+                        </p>
                     </CardContent>
                 </Card>
             ))}
