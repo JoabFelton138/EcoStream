@@ -1,9 +1,17 @@
 import { NormalizedOverflow } from "@/lib/types/overflow";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { getTotalCompanies, getTotalWaterCourses, getMostActiveCompany, getSpillCountByCompany } from "@/lib/kpi-helpers";
+import { getTotalCompanies, getTotalWaterCourses, getMostActiveCompany, getSpillCountByCompany, getLongestSpill, formatDuration } from "@/lib/kpi-helpers";
+import { InfoPopover } from "../shared/info-popover";
 
 interface KpiCardsProps {
     overflowData: NormalizedOverflow[];
+}
+
+type KpiCard = {
+    id: string;
+    title: string;
+    displayValue: string | number;
+    description?: string
 }
 
 export const KpiCards = ({ overflowData }: KpiCardsProps) => {
@@ -12,47 +20,58 @@ export const KpiCards = ({ overflowData }: KpiCardsProps) => {
     const totalWaterCourses = getTotalWaterCourses(overflowData);
     const spillCountByCompany = getSpillCountByCompany(overflowData);
     const mostActiveSpills = getMostActiveCompany(spillCountByCompany);
+    const longestSpill = getLongestSpill(overflowData);
+    const formattedDuration = formatDuration(longestSpill.durationMs) ?? "-";
 
-    const dataObj = [
+    const cards: KpiCard[] = [
         {
+            id: "total_spills",
             title: "Total Active Spills",
-            value: overflowData.length,
+            displayValue: overflowData.length,
         },
         {
+            id: "companies_dumping",
             title: "Number of Companies Dumping",
-            value: totalCompanies,
+            displayValue: totalCompanies,
         },
         {
+            id: "most_active_company",
             title: "Company With Highest Number of Spills",
-            value: mostActiveSpills,
+            displayValue: mostActiveSpills.company ?? "-",
+            description: `${mostActiveSpills.count} Active Spills`,
+
         },
         {
+            id: "dry_weather_spills",
             title: "Dry Weather Spills",
-            value: "",
+            displayValue: "",
         },
         {
+            id: "longest_active_spill",
             title: "Longest Active Spill",
-            value: ""
+            displayValue: longestSpill ? `At last monitoring update: ${formattedDuration}` : "-",
+            description: `${longestSpill.receivingWaterCourse} - ${longestSpill.company}`,
         },
         {
+            id: "number_of_rivers_polluted",
             title: "Number of Rivers Polluted",
-            value: totalWaterCourses,
+            displayValue: totalWaterCourses,
         }
     ]
     
     return (
-        <div className="grid grid-cols-3 gap-4">
-            {dataObj.map((obj, index) => (
-                <Card key={index}>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {cards.map((card) => (
+                <Card key={card.id}>
                     <CardHeader>
-                        <CardTitle>{obj.title}</CardTitle>
+                        <div className="flex justify-between">
+                            <CardTitle>{card.title}</CardTitle>
+                            <InfoPopover title={card.id} />
+                        </div>
                     </CardHeader>
                     <CardContent>
-                        <p>
-                            {typeof obj.value === "object" 
-                                ? `${obj.value.company}: ${obj.value.count} Active Spills`
-                                : obj.value}
-                        </p>
+                        <p>{card.displayValue}</p>
+                        {card.description &&  <p>{card.description}</p>}
                     </CardContent>
                 </Card>
             ))}
