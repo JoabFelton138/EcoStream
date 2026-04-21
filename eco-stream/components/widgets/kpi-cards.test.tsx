@@ -4,7 +4,8 @@ import { formatDuration,
         getSpillCountByCompany, 
         getTotalCompanies, 
         getTotalWaterCourses,
-        calculateDuration
+        calculateDuration,
+        getLongestSpill
      } from "../../lib/kpi-helpers";
 import { NormalizedOverflow } from "@/lib/types/overflow";
 
@@ -102,7 +103,6 @@ const mockData: NormalizedOverflow[] = [
     }
   ];
 
-
 describe("getTotalCompanies", () => {
     it("returns 0 for empty data", () => {
         expect(getTotalCompanies([])).toBe(0);
@@ -154,5 +154,36 @@ describe("formatDuration", () => {
     });
     it("should format days correctly", () => {
         expect(formatDuration(86400000)).toBe("1d 0h 0m");
+    });
+});
+
+describe("calculateDuration", () => {
+    it("should return timestamp along with details of the longest spill", () => {
+        expect(calculateDuration(mockData)).toEqual({
+            longestDuration: 553878494, 
+            longestSpill: {
+                company: "united utilities",
+                geometry: {
+                    x: -391088.5394677412,
+                    y: 7282977.550203693,
+                },
+                id: "UUP01548",
+                lastUpdated: "2026-04-21T10:35:18.494Z",
+                latestEventStart: "2026-04-15T00:44:00.000Z",
+                latitude: 54.5914620509691,
+                longitude: -3.5132081244785,
+                receivingWaterCourse: "dyan beck",
+        }});
+    }); 
+});
+
+describe("getLongestSpill", () => {
+    it("should return the details of the longest spill", () => {
+        expect(getLongestSpill(mockData)).toEqual({
+            company: "united utilities",
+            receivingWaterCourse: "dyan beck",
+            startedAt: "2026-04-15T00:44:00.000Z",
+            durationMs: 553878494,
+        });
     });
 });
