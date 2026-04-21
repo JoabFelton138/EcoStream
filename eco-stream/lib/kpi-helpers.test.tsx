@@ -6,7 +6,7 @@ import { formatDuration,
         getTotalWaterCourses,
         calculateDuration,
         getLongestSpill
-     } from "../../lib/kpi-helpers";
+     } from "./kpi-helpers";
 import { NormalizedOverflow } from "@/lib/types/overflow";
 
 const mockData: NormalizedOverflow[] = [
