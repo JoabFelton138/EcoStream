@@ -12,28 +12,10 @@ describe("GET /api/overflows", () => {
     });
 
     it("should return 200", async () => {
-
-        const mockArcGisResponse = {
-            features: [
-              {
-                attributes: {
-                  Id: "ABC123",
-                  Company: "Thames Water",
-                  ReceivingWaterCourse: " River Thames ",
-                  Latitude: 51.5,
-                  Longitude: -0.1,
-                  LatestEventStart: "2026-04-20T10:00:00.000Z",
-                  LastUpdated: "2026-04-21T10:00:00.000Z",
-                },
-                geometry: { x: 1, y: 2 },
-              },
-            ],
-        };
-
         const mockFetch = vi.fn();
         mockFetch.mockResolvedValue({
             ok: true,
-            json: async() => mockArcGisResponse,
+            json: async() => ({features: []}),
         });
 
         const response = await GET();

@@ -23,6 +23,5 @@ describe("KpiCards", () => {
         expect(screen.getByText('dyan beck - united utilities')).toBeInTheDocument();
         
         expect(screen.getByText('Number of Rivers Polluted')).toBeInTheDocument();
-        screen.debug();
     });
 });
