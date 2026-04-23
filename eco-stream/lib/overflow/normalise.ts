@@ -2,7 +2,7 @@ import { NormalizedOverflow, RawOverflowFeature } from "../types/overflow";
 
 export const toIso = (value: number | string | null | undefined) => {
     if (value == null || value === "") return null;
-    const date = typeof value === "number" ? new Date(value) : new Date(value);
+    const date = new Date(value);
     return Number.isNaN(date.getTime()) ? null : date.toISOString();
 };
 
