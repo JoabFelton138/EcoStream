@@ -7,7 +7,7 @@ import { formatDuration,
         calculateDuration,
         getLongestSpill
      } from "./kpi-helpers";
-     import { mockData } from "../test/mockData";
+     import { mockData } from "../../test/mockData";
 
 describe("getTotalCompanies", () => {
     it("returns 0 for empty data", () => {

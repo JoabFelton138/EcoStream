@@ -1,4 +1,4 @@
-import { NormalizedOverflow } from "./types/overflow";
+import { NormalizedOverflow } from "../types/overflow";
 
 export const getTotalCompanies = (overflowData: NormalizedOverflow[]) => 
     new Set(overflowData.map((item) => item.company)).size;
