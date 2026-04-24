@@ -73,4 +73,45 @@ describe("GET /api/overflows", () => {
             expect(mockFetch).toHaveBeenCalledWith(url);
         }
     });
+
+    it("ignores fulfilled responses with non-array features", async () => {
+        mockFetch.mockResolvedValue({
+            ok: true,
+            json: async() => ({features: undefined})
+        });
+
+        const response = await GET();
+        const body = await response.json();
+        expect(body).toEqual([]);
+    });
+
+    it("skips rejected source results", async () => {
+        const feature = {
+            attributes: {
+                Id: "ABC123",
+                Company: "Umbrella Corporation",
+                ReceivingWaterCourse: "Circular River",
+                Latitude: 51.5,
+                Longitude: -0.1,
+                LatestEventStart: "2026-04-20T10:00:00.000Z",
+                LastUpdated: "2026-04-21T10:00:00.000Z",
+            },
+            geometry: { x: 1, y: 2 },
+        };
+
+        mockFetch
+            .mockRejectedValueOnce(new Error("network error"))
+            .mockResolvedValue({
+                ok: true,
+                json: async() => ({features: [feature]})
+            });
+        
+        const response = await GET();
+        const body = await response.json();
+
+        expect(response.status).toBe(200);
+        expect(body.length).toBeGreaterThan(0);
+        expect(body[0].id).toBe("ABC123");
+
+    });
 });
