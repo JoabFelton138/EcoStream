@@ -26,7 +26,7 @@ describe("KpiCards", () => {
         expect(screen.getByText('Number of Rivers Polluted')).toBeInTheDocument();
     });
 
-    it("should display 0 and- for empty values", () => {
+    it("should display 0 and - for empty values", () => {
         const emptyData: NormalizedOverflow[] = [];
         render(<KpiCards overflowData={emptyData} />)
         expect(screen.getAllByText('0')).toHaveLength(4);
