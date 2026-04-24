@@ -2,6 +2,7 @@ import { mockData } from "../../test/mockData";
 import { describe, expect, it } from "vitest";
 import { KpiCards } from "./kpi-cards";
 import { render, screen } from "@testing-library/react";
+import { NormalizedOverflow } from "@/lib/types/overflow";
 
 describe("KpiCards", () => {
     it("should render the KPI cards with computed values", () => {
@@ -23,5 +24,12 @@ describe("KpiCards", () => {
         expect(screen.getByText('dyan beck - united utilities')).toBeInTheDocument();
         
         expect(screen.getByText('Number of Rivers Polluted')).toBeInTheDocument();
+    });
+
+    it("should display 0 and- for empty values", () => {
+        const emptyData: NormalizedOverflow[] = [];
+        render(<KpiCards overflowData={emptyData} />)
+        expect(screen.getAllByText('0')).toHaveLength(4);
+        expect(screen.getAllByText('-')).toHaveLength(3);
     });
 });
