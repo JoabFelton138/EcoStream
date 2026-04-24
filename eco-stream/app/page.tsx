@@ -15,7 +15,7 @@ export default function Home() {
     try {
       setError(null);
       const result = await fetch("/api/overflows");
-      if (!result.ok) throw new Error(`Failed: ${result.status}`);
+      if (!result.ok) throw new Error(`${result.status}`);
       const json = (await result.json()) as NormalizedOverflow[];
       setOverflowData(json);
     }
