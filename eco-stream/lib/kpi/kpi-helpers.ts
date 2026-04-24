@@ -62,6 +62,9 @@ export const calculateDuration = (candidateSpills: NormalizedOverflow[]) => {
 export const getLongestSpill = (overflowData: NormalizedOverflow[]) => {
 
     const candidateSpills = overflowData.filter((item) => item.latestEventStart);
+
+    if (candidateSpills.length === 0) return null;
+    
     const {longestSpill, longestDuration} = calculateDuration(candidateSpills);
     const startedAt = new Date(longestSpill.latestEventStart as string);
 
