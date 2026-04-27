@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GET } from "./route";
 import { OVERFLOW_URLS } from "@/lib/config/urls";
+import { screen, waitFor } from "@testing-library/react";
 
 describe("GET /api/overflows", () => {
     const mockFetch = vi.fn();
@@ -113,5 +114,17 @@ describe("GET /api/overflows", () => {
         expect(body.length).toBeGreaterThan(0);
         expect(body[0].id).toBe("ABC123");
 
+    });
+
+    it("returns empty array when all upstream responses are non-ok", async () => {
+        mockFetch.mockResolvedValue({
+            ok: false,
+            status: 404,
+            json: async() => ({})
+        });
+        const response = await GET();
+        const body = await response.json();
+        expect(response.status).toBe(200);
+        expect(body).toEqual([]);
     });
 });
