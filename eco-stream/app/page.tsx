@@ -1,5 +1,8 @@
 "use client";
 
+
+import { CompanySpillBreakdown } from "@/components/widgets/charts/company-spill-breakdown";
+import { DataTest } from "@/components/widgets/data-test";
 import { KpiCards } from "@/components/widgets/kpi-cards";
 import { NormalizedOverflow } from "@/lib/types/overflow";
 import { useEffect, useState } from "react";
@@ -36,8 +39,10 @@ export default function Home() {
   
   return (
     <div>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="grid grid-cols-1 gap-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <KpiCards overflowData={overflowData} />
+        <CompanySpillBreakdown overflowData={overflowData}/>
+        {/* <DataTest /> */}
       </main>
     </div>
   );
