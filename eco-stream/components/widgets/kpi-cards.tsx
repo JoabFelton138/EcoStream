@@ -1,6 +1,6 @@
 import { NormalizedOverflow } from "@/lib/types/overflow";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { getTotalCompanies, getTotalWaterCourses, getMostActiveCompany, getSpillCountByCompany, getLongestSpill, formatDuration } from "@/lib/kpi/kpi-helpers";
+import { getTotalCompanies, getTotalWaterCourses, getMostActiveCompany, getSpillCountByCompany, getLongestSpill, formatDuration } from "@/lib/utility-functions/helpers";
 import { InfoPopover } from "../shared/info-popover";
 
 interface KpiCardsProps {

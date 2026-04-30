@@ -6,7 +6,7 @@ import { formatDuration,
         getTotalWaterCourses,
         calculateDuration,
         getLongestSpill
-     } from "./kpi-helpers";
+     } from "./helpers";
      import { mockData } from "../../test/mockData";
 
 describe("getTotalCompanies", () => {
