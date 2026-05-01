@@ -4,7 +4,7 @@ import { formatDuration,
         getSpillCountByCompany, 
         getTotalCompanies, 
         getTotalWaterCourses,
-        calculateDuration,
+        calculateLongestDuration,
         getLongestSpill,
         getCompanyColour
      } from "./helpers";
@@ -64,9 +64,9 @@ describe("formatDuration", () => {
     });
 });
 
-describe("calculateDuration", () => {
+describe("calculateLongestDuration", () => {
     it("should return timestamp along with details of the longest spill", () => {
-        expect(calculateDuration(mockData)).toEqual({
+        expect(calculateLongestDuration(mockData)).toEqual({
             longestDuration: 553878494, 
             longestSpill: {
                 company: "united utilities",

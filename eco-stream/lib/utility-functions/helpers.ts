@@ -41,16 +41,21 @@ export const formatDuration = (durationMs: number) => {
     if (days > 0) return `${days}d ${hours}h ${minutes}m`;
     if (hours > 0) return `${hours}h ${minutes}m`;
     return `${minutes}m`;
-}
+};
 
-export const calculateDuration = (candidateSpills: NormalizedOverflow[]) => {
+export const calculateDuration = (latestEventStart: string, lastUpdated: string) => {
+    const start = new Date(latestEventStart as string).getTime();
+    const end = new Date(lastUpdated as string).getTime();
+    const duration = end - start;
+    return duration;
+};
+
+export const calculateLongestDuration = (candidateSpills: NormalizedOverflow[]) => {
     let longestSpill = candidateSpills[0];
     let longestDuration = 0;
 
     for (const item of candidateSpills) {
-        const start = new Date(item.latestEventStart as string).getTime();
-        const end = new Date(item.lastUpdated as string).getTime();
-        const duration = end - start;
+        const duration = calculateDuration(item.latestEventStart as string, item.lastUpdated as string);
 
         if (duration > longestDuration) {
             longestDuration = duration;
@@ -60,13 +65,21 @@ export const calculateDuration = (candidateSpills: NormalizedOverflow[]) => {
     return {longestSpill, longestDuration};
 };
 
+export const getTotalDuration = (overflowData: NormalizedOverflow[]) => {
+    return overflowData.reduce<Record<string, number>>((acc, item) => {
+        const duration = calculateDuration(item.latestEventStart as string, item.lastUpdated as string);
+        acc[item.company] = (acc[item.company] ?? 0) + duration;
+        return acc;
+    }, {});
+};
+
 export const getLongestSpill = (overflowData: NormalizedOverflow[]) => {
 
     const candidateSpills = overflowData.filter((item) => item.latestEventStart);
 
     if (candidateSpills.length === 0) return null;
     
-    const {longestSpill, longestDuration} = calculateDuration(candidateSpills);
+    const {longestSpill, longestDuration} = calculateLongestDuration(candidateSpills);
     const startedAt = new Date(longestSpill.latestEventStart as string);
 
     return {
