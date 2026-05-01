@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { OVERFLOW_URLS } from "@/lib/config/urls";
+import { OVERFLOW_URLS } from "@/lib/constants/urls";
 import { RawArcGISResponse } from "@/lib/types/overflow";
 import { normaliseData } from "@/lib/overflow/normalise";
 

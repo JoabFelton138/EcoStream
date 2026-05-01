@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { GET } from "./route";
-import { OVERFLOW_URLS } from "@/lib/config/urls";
+import { OVERFLOW_URLS } from "@/lib/constants/urls";
 import { screen, waitFor } from "@testing-library/react";
 
 describe("GET /api/overflows", () => {
