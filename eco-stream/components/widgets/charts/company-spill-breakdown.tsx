@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
 
 import {
@@ -15,7 +14,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart"
 import { NormalizedOverflow } from "@/lib/types/overflow"
-import { getMostActiveCompany, getSpillCountByCompany } from "@/lib/utility-functions/helpers"
+import { getCompanyColour, getMostActiveCompany, getSpillCountByCompany, toFill } from "@/lib/utility-functions/helpers"
 
 interface CompanySpillBreakdownProps {
   overflowData: NormalizedOverflow[];
@@ -40,7 +39,11 @@ export function CompanySpillBreakdown({overflowData} : CompanySpillBreakdownProp
   const spillCountByCompany = getSpillCountByCompany(overflowData);
   const {count: maxSpillCount} = getMostActiveCompany(spillCountByCompany);
   const chartData = Object.entries(spillCountByCompany)
-  .map(([company, count]) => ({company, count}))
+  .map(([company, count]) => ({
+    company, 
+    count,
+    fill: toFill(getCompanyColour(company))
+  }))
   .sort((a, b) => b.count - a.count);
 
   return (
@@ -58,11 +61,6 @@ export function CompanySpillBreakdown({overflowData} : CompanySpillBreakdownProp
           </BarChart>
         </div>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 leading-none font-medium">
-          Based on current discharge activity
-        </div>
-      </CardFooter>
     </Card>
   )
 }
