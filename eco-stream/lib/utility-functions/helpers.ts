@@ -81,3 +81,5 @@ export const getCompanyColour = (company: string) => {
     const DEFAULT_COLOUR = "bg-gray-500";
     return COMPANY_COLOURS[company] ?? DEFAULT_COLOUR;
 };
+
+export const toFill = (bgClass: string) => `var(--color-${bgClass.replace(/^bg-/, "")})`;
