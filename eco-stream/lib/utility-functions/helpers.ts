@@ -1,3 +1,4 @@
+import { COMPANY_COLOURS } from "../constants/company-colors";
 import { NormalizedOverflow } from "../types/overflow";
 
 export const getTotalCompanies = (overflowData: NormalizedOverflow[]) => 
@@ -74,4 +75,9 @@ export const getLongestSpill = (overflowData: NormalizedOverflow[]) => {
         startedAt: startedAt.toISOString(),
         durationMs: longestDuration,
     };
+};
+
+export const getCompanyColour = (company: string) => {
+    const DEFAULT_COLOUR = "bg-gray-500";
+    return COMPANY_COLOURS[company] ?? DEFAULT_COLOUR;
 };
