@@ -65,7 +65,7 @@ export const calculateLongestDuration = (candidateSpills: NormalizedOverflow[]) 
     return {longestSpill, longestDuration};
 };
 
-export const getTotalDuration = (overflowData: NormalizedOverflow[]) => {
+export const getTotalDurationByCompany = (overflowData: NormalizedOverflow[]) => {
     return overflowData.reduce<Record<string, number>>((acc, item) => {
         const duration = calculateDuration(item.latestEventStart as string, item.lastUpdated as string);
         acc[item.company] = (acc[item.company] ?? 0) + duration;

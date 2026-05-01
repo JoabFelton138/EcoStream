@@ -1,44 +1,25 @@
 "use client"
 
-import { Bar, BarChart, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  type ChartConfig,
-} from "@/components/ui/chart"
 import { NormalizedOverflow } from "@/lib/types/overflow"
-import { getCompanyColour, getMostActiveCompany, getSpillCountByCompany, toFill } from "@/lib/utility-functions/helpers"
+import { formatDuration, getCompanyColour, getSpillCountByCompany, getTotalDurationByCompany, toFill } from "@/lib/utility-functions/helpers"
 
 interface CompanySpillBreakdownProps {
   overflowData: NormalizedOverflow[];
 }
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "var(--chart-2)",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "var(--chart-2)",
-  },
-  label: {
-    color: "var(--background)",
-  },
-} satisfies ChartConfig
 
 export function CompanySpillBreakdown({overflowData} : CompanySpillBreakdownProps) {
   
-  const spillCountByCompany = getSpillCountByCompany(overflowData);
-  const {count: maxSpillCount} = getMostActiveCompany(spillCountByCompany);
-  const chartData = Object.entries(spillCountByCompany)
+  const chartData = Object.entries(getTotalDurationByCompany(overflowData))
   .map(([company, count]) => ({
     company, 
     count,
@@ -49,15 +30,27 @@ export function CompanySpillBreakdown({overflowData} : CompanySpillBreakdownProp
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Company Spill Breakdown</CardTitle>
-        <CardDescription>Shows the number of spills by company</CardDescription>
+        <CardTitle>Total recorded duration of active spills per company</CardTitle>
+        <CardDescription>Based on current active spill durations</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="w-auto h-[260px]">
           <BarChart width={700} height={260} data={chartData} layout="vertical">
-            <XAxis type="number" allowDecimals={false} domain={[0, maxSpillCount]}/>
+            <XAxis 
+              type="number"
+              hide
+              />
             <YAxis dataKey="company" type="category" width={120}/>
-            <Bar dataKey="count" fill="#2563eb" />
+            <Bar dataKey="count">
+              <LabelList
+                dataKey="count"
+                position="right"
+                formatter={(value) => {
+                  const ms = typeof value === "number" ? value : Number(value ?? 0);
+                  return formatDuration(ms);
+                }}
+              />
+            </Bar>
           </BarChart>
         </div>
       </CardContent>
