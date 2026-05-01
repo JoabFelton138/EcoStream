@@ -5,7 +5,8 @@ import { formatDuration,
         getTotalCompanies, 
         getTotalWaterCourses,
         calculateDuration,
-        getLongestSpill
+        getLongestSpill,
+        getCompanyColour
      } from "./helpers";
      import { mockData } from "../../test/mockData";
 
@@ -91,5 +92,17 @@ describe("getLongestSpill", () => {
             startedAt: "2026-04-15T00:44:00.000Z",
             durationMs: 553878494,
         });
+    });
+});
+
+describe("getCompanyColour", () => {
+    it("should return the correct colour for a company", () => {
+        expect(getCompanyColour("thames water")).toBe("bg-blue-600");
+        expect(getCompanyColour("united utilities")).toBe("bg-cyan-600");
+        expect(getCompanyColour("yorkshire water")).toBe("bg-teal-600");
+        expect(getCompanyColour("southern water")).toBe("bg-amber-500");
+    });
+    it("should return default colour if company unknown", () => {
+        expect(getCompanyColour("unknown company")).toBe("bg-gray-500");
     });
 });

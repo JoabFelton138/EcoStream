@@ -12,7 +12,8 @@ export const ActiveCompanyPills = ({overflowData} : ActiveCompanyPillsProps) => 
 
     const spillCountByCompany = getSpillCountByCompany(overflowData);
     const pillData = Object.entries(spillCountByCompany)
-    .map(([company, count]) => ({company, count}));
+    .map(([company, count]) => ({company, count}))
+    .sort((a, b) => b.count - a.count);
     
     return (
         <div className="flex flex-wrap gap-2">
